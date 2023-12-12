@@ -1,0 +1,41 @@
+{
+    "name": "tahseen9/laravel-supervisor-manager",
+    "description": ":package_description",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Author Name",
+            "email": "author@email.com",
+            "homepage": "http://author.com"
+        }
+    ],
+    "homepage": "https://github.com/tahseen9/laravel-supervisor-manager",
+    "keywords": ["Laravel", "LaravelSupervisorManager"],
+    "require": {
+        "illuminate/support": "~9"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tahseen9\\LaravelSupervisorManager\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tahseen9\\LaravelSupervisorManager\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tahseen9\\LaravelSupervisorManager\\LaravelSupervisorManagerServiceProvider"
+            ],
+            "aliases": {
+                "LaravelSupervisorManager": "Tahseen9\\LaravelSupervisorManager\\Facades\\LaravelSupervisorManager"
+            }
+        }
+    }
+}
