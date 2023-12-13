@@ -1,16 +1,16 @@
 {
     "name": "tahseen9/laravel-supervisor-manager",
-    "description": ":package_description",
+    "description": "Manage supervisor pragmatically or within your Laravel app.",
     "license": "MIT",
     "authors": [
         {
-            "name": "Author Name",
-            "email": "author@email.com",
-            "homepage": "http://author.com"
+            "name": "Syed Muhammad Tahseen",
+            "email": "tehzu9@hotmail.com",
+            "homepage": "https://protocolhub.dev"
         }
     ],
     "homepage": "https://github.com/tahseen9/laravel-supervisor-manager",
-    "keywords": ["Laravel", "LaravelSupervisorManager"],
+    "keywords": ["Laravel", "Laravel Supervisor Manager","Laravel worker manager", "Supervisor with laravel"],
     "require": {
         "illuminate/support": "~9"
     },

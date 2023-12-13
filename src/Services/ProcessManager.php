@@ -3,49 +3,39 @@
 namespace Tahseen9\LaravelSupervisorManager\Services;
 
 use Illuminate\Support\Facades\Process;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 class ProcessManager
 {
-    public function startAll(): string
+    private array $functions;
+    private array $commands;
+
+    public function __construct()
     {
-        $result = Process::run('sudo supervisorctl start all');
+        $this->commands = config('laravel-supervisor-manager.commands');
+        $this->functions = array_keys($this->commands);
+    }
+
+    public function __call($method, $args)
+    {
+        if(!in_array($method,$this->functions)){
+            throw new MethodNotAllowedException($this->functions);
+        }
+
+        $command = $this->commands[$method];
+
+        if(!empty($args)){
+            $command = str_replace('{name}',$args[0], $command);
+        }
+
+        $result = Process::run($command);
 
         if($result->failed()){
             return $result->errorOutput();
         }
 
         return $result->output();
+
     }
-
-    public function restartAll(): string
-    {
-        $result = Process::run('sudo supervisorctl start all');
-
-        if($result->failed()){
-            return $result->errorOutput();
-        }
-
-        return $result->output();
-    }
-
-    public function stopAll(): string
-    {
-        return 'console output';
-    }
-
-    public function start(string $name): string
-    {
-        return 'console output';
-    }
-
-    public function restart(string $name): string
-    {
-        return 'console output';
-    }
-    public function stop(string $name): string
-    {
-        return 'console output';
-    }
-
 
 }

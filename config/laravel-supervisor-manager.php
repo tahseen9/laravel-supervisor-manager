@@ -10,6 +10,6 @@ return [
         "start"             => "sudo supervisorctl start {name}:*",
         "restart"           => "sudo supervisorctl restart {name}:*",
         "stop"              => "sudo supervisorctl stop {name}:*",
-        "status"              => "sudo supervisorctl status {name}:*",
+        "status"            => "sudo supervisorctl status {name}:*",
     ]
 ];
