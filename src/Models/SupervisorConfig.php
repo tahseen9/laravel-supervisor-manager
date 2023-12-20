@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where()
+ * @method static whereId(int|string $id)
+ */
 class SupervisorConfig extends Model
 {
     use HasFactory;
@@ -21,7 +25,7 @@ class SupervisorConfig extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','config'];
+    protected $fillable = ['name','config','path'];
 
     /**
      * The attributes that should be cast.

@@ -17,6 +17,7 @@ class CreateSupervisorConfigTable extends Migration
             $table->id();
             $table->string('name');
             $table->json('config')->comment('Supervisor config in JSON format');
+            $table->string('path')->comment('active file path');
             $table->timestamps();
         });
     }
