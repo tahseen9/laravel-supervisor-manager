@@ -78,31 +78,6 @@ class ConfigurationManager
     }
 
     /**
-     * Deactivates a configuration by ID.
-     *
-     * @param int|string $id The ID of the configuration to deactivate.
-     * @return bool Returns true if the configuration was successfully deactivated.
-     * @throws RecordsNotFoundException If the given config ID does not exist in the SupervisorConfig Model.
-     */
-    public function deactivateConfig(int|string $id): bool
-    {
-        $supervisorConfig = SupervisorConfig::whereId($id);
-
-        // if config exists in SupervisorConfig Model
-        if(!$supervisorConfig->exists()){
-            throw new RecordsNotFoundException("Given config id does not exists");
-        }
-
-        $supervisorConfig = $supervisorConfig->first();
-
-        if (File::exists($supervisorConfig->path)) {
-            File::delete($supervisorConfig->path);
-        }
-
-        return true;
-    }
-
-    /**
      * Activates a configuration by creating a file and setting its ownership and permissions.
      *
      * @param int|string $id The ID of the configuration to activate.
@@ -162,11 +137,38 @@ class ConfigurationManager
     }
 
     /**
+     * Deactivates a configuration by ID.
+     *
+     * @param int|string $id The ID of the configuration to deactivate.
+     * @return bool Returns true if the configuration was successfully deactivated.
+     * @throws RecordsNotFoundException If the given config ID does not exist in the SupervisorConfig Model.
+     */
+    public function deactivateConfig(int|string $id): bool
+    {
+        $supervisorConfig = SupervisorConfig::whereId($id);
+
+        // if config exists in SupervisorConfig Model
+        if(!$supervisorConfig->exists()){
+            throw new RecordsNotFoundException("Given config id does not exists");
+        }
+
+        $supervisorConfig = $supervisorConfig->first();
+
+        if (File::exists($supervisorConfig->path)) {
+            File::delete($supervisorConfig->path);
+        }
+
+        return true;
+    }
+
+    // Private Methods ---------
+
+    /**
      * Retrieves the environment directory path based on the current environment mode.
      *
      * @return string The absolute path of the environment directory.
      */
-    public function getEnvDir(): string
+    private function getEnvDir(): string
     {
         // Get application's base path
         $basePath = base_path();
@@ -217,7 +219,7 @@ class ConfigurationManager
      *
      * @return bool Returns true if the directory meets the specified criteria, false otherwise.
      */
-    public function validateDirectory(string $dirPath): bool
+    private function validateDirectory(string $dirPath): bool
     {
         // Check if the directory exists.
         if (!File::exists($dirPath) or !File::isDirectory($dirPath)) {
