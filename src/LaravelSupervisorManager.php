@@ -14,4 +14,8 @@ class LaravelSupervisorManager
     // show specific workers
     // Set event listeners and event managers
 
+    public function work(): string
+    {
+        return "work in progress";
+    }
 }
