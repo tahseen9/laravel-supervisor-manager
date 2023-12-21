@@ -28,12 +28,15 @@
             text-decoration: none;
             text-transform: uppercase;
         }
+        h1 {
+            font-size: xxx-large
+        }
     </style>
     <title>Laravel Supervisor Manager</title>
 </head>
 <body>
 <div class="container">
-    <h1>Welcome to Laravel Supervisor Manager</h1>
+    <h1>Welcome to Laravel Supervisor Manager!</h1>
 
     <p><strong>Package Name:</strong> {{ $composerData['name'] }}</p>
     <p><strong>Description:</strong> {{ $composerData['description'] }}</p>
