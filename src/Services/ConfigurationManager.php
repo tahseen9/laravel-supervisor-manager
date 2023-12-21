@@ -186,6 +186,10 @@ class ConfigurationManager
             File::delete($supervisorConfig->path);
         }
 
+        $supervisorConfig->update([
+            'path' => null
+        ]);
+
         return true;
     }
 
