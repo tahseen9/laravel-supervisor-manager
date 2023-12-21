@@ -11,14 +11,14 @@ return [
     ],
     "program" => [ # default supervisor program structure
         "program_name" => [ # program name to identify the program group e.g. barcode-generator
-            "process_name"  => "%(program_name)s_%(process_num)02d", # process name to identify the process in a group
             "command"       => ":command", # given command to execute in supervisor
+            "process_name"  => "%(program_name)s_%(process_num)02d", # process name to identify the process in a group
+            "numprocs"      => 1, # default num process
             "autostart"     => true, # auto start the program whenever supervisor starts
             "autorestart"   => true, # auto restart if supervisor exits unexpectedly
             "user"          => "www-data", # default user
-            "numprocs"      => 1, # default num process
             "redirect_stderr" => true, # it will send the error output to the same location as the standard output
-            "stdout_logfile" => "{laravel-log-dir}/{program_name}_{env-name}_worker.log",
+            "stdout_logfile" => "{laravel-log-dir}/{program_name}_{env}_worker.log",
         ],
     ],
     "commands" => [

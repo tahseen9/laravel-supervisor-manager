@@ -15,7 +15,7 @@ class LaravelSupervisorManagerServiceProvider extends ServiceProvider
     {
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tahseen9');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'tahseen9');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         // Publishing is only necessary when using the CLI.
@@ -37,6 +37,7 @@ class LaravelSupervisorManagerServiceProvider extends ServiceProvider
         $this->app->singleton('laravel-supervisor-manager', function ($app) {
             return new LaravelSupervisorManager;
         });
+
     }
 
     /**

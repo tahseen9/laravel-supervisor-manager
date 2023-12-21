@@ -1,7 +1,7 @@
 <?php
 
 namespace Tahseen9\LaravelSupervisorManager\Services;
-use App\Models\SupervisorConfig;
+use Tahseen9\LaravelSupervisorManager\Models\SupervisorConfig;
 use Illuminate\Database\RecordsNotFoundException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
@@ -54,9 +54,32 @@ class ConfigurationManager
         $programName = $config['program_name'];
         unset($config['program_name']);
 
+        // replace log file patch with real path
+        $logPath = $config['stdout_logfile'];
+
+        // replace {laravel-log-dir} with storage_path logs
+        if(str_contains($logPath, '{laravel-log-dir}')){
+            $logPath = str_replace('{laravel-log-dir}', storage_path('logs'), $logPath);
+        }
+
+        // replace {program_name} with $program_name
+        if(str_contains($logPath, '{program_name}')){
+            $logPath = str_replace('{program_name}', $programName, $logPath);
+        }
+
+        // replace {env} with app.env
+        if(str_contains($logPath, '{env}')){
+            $logPath = str_replace('{env}', Config::get('app.env'), $logPath);
+        }
+
+        // reset the value
+        $config['stdout_logfile'] = $logPath;
+
         // prepare config array structure
         $config = [
-            $programName => $config
+            "program" => [
+                $programName => $config
+            ]
         ];
 
         // save config in the table if it is new
@@ -101,8 +124,13 @@ class ConfigurationManager
         // call getEnvDir() to get dirPath
         $dirPath = $this->getEnvDir();
 
+        $config = $supervisorConfig->config;
+
+        // resort array with preferred sequence
+        $config['program'][$supervisorConfig->name] = array_merge(array_flip(array_keys($this->defaultProgram)), $config['program'][$supervisorConfig->name]);
+
         // call arrayToConfigString and convert config attribute from SupervisorConfig Model to configString
-        $configString = $this->arrayToConfString($supervisorConfig->config);
+        $configString = $this->arrayToConfString($config);
 
         // using dirPath concat the name attribute from SupervisorConfig for file name and
         $file = $dirPath . '/' . $supervisorConfig->name . '.conf';
@@ -130,7 +158,7 @@ class ConfigurationManager
         }
 
         // update the file path in SupervisorConfig Model
-        $supervisorConfig->file_path = $file;
+        $supervisorConfig->path = $file;
         $supervisorConfig->save();
 
         return true;
@@ -248,35 +276,22 @@ class ConfigurationManager
      * Converts an array to a configuration string.
      * The configuration string is formatted as an INI file.
      *
-     * @param array $array The array to convert.
+     * @param array $configArray The array to convert.
      *                     The keys represent sections in the configuration file,
      *                     and the values represent key-value pairs in each section.
      * @return string The configuration string.
      */
-    private function arrayToConfString(array $array): string {
-        $confString = '';
+    private function arrayToConfString(array $configArray): string {
+        $configString = '';
 
-        foreach($array as $section => $configs) {
-            $confString .= "[{$section}]\n";
-            foreach($configs as $key => $value) {
-                if (is_array($value)) {
-                    foreach($value as $subKey => $subValue) {
-                        if (is_bool($subValue)) {
-                            $subValue = $subValue ? 'true' : 'false';
-                        }
-                        $confString .= "{$subKey}={$subValue}\n";
-                    }
-                } else {
-                    if (is_bool($value)) {
-                        $value = $value ? 'true' : 'false';
-                    }
-                    $confString .=  "{$key}={$value}\n";
-                }
+        foreach ($configArray['program'] as $programName => $config) {
+            $configString .= "[program:$programName]\n";
+            foreach ($config as $key => $value) {
+                $configString .= "$key=" . (is_bool($value) ? var_export($value, true) : $value) . "\n";
             }
-            $confString .= "\n";
         }
 
-        return $confString;
+        return $configString;
     }
 
     /**

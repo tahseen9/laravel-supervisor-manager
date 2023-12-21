@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace Tahseen9\LaravelSupervisorManager\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * @method static where()
  * @method static whereId(int|string $id)
  */
-class SupervisorConfig extends Model
+class SupervisorConfig extends Eloquent
 {
     use HasFactory;
 
