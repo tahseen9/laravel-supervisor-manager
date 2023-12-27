@@ -7,7 +7,7 @@ class LaravelSupervisorManager
     // environment based configuration management
     // make a configuration stub
     // restart or implement services in supervisor
-    // take php location on server
+    // take php location on server - Commands
     // if env is local allow access to urls of supervisor otherwise only whitelisted ip address
     // make a command to add ip address for whitelisting
     // show all running supervisor instances and workers

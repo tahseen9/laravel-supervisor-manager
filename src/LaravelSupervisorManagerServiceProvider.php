@@ -13,6 +13,9 @@ class LaravelSupervisorManagerServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->publishes([
+            __DIR__.'/../resources/assets' => public_path('tahseen9/laravel-supervisor-manager'),
+        ]);
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tahseen9');
          $this->loadViewsFrom(__DIR__.'/../resources/views', 'tahseen9');
          $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
